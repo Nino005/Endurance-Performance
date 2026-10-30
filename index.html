@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Endurance Performance Training Lab – Bozza</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700&display=swap">
+<style>
+:root{--bg:#eef2f7;--surface:#fff;--text:#0f1a2e;--muted:#52607a;--line:#d3dbe8;--slate:#0c2b5c;--accent:#ff5b3a;--ink:#14181f;--link:#0c2b5c;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1526;--surface:#12213a;--text:#eef2f8;--muted:#9fb0cc;--line:#24395c;--link:#ff8f73;--slate:#0a2348;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b1526;--surface:#12213a;--text:#eef2f8;--muted:#9fb0cc;--line:#24395c;--link:#ff8f73;--slate:#0a2348;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:400 17px/1.6 "Barlow",system-ui,sans-serif}
+h1,h2,h3{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:700;line-height:1.08;margin:0 0 .5em;letter-spacing:.2px}
+h1{font-size:clamp(2.5rem,9vw,4.4rem)}h2{font-size:clamp(1.8rem,5vw,2.5rem)}h3{font-size:1.45rem}
+p{margin:0 0 1em;max-width:62ch}
+a{color:var(--link)}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--slate);color:#fff}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--slate);z-index:30}
+.bar{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font:700 1.35rem "Barlow Condensed",sans-serif;color:#fff;text-decoration:none;display:flex;gap:10px;align-items:center}
+.logo b{background:var(--accent);color:var(--ink);padding:1px 8px;border-radius:3px}
+.icon{background:none;border:0;color:#fff;font:inherit;cursor:pointer;padding:10px;display:flex;align-items:center;gap:6px}
+.logo{white-space:nowrap}
+nav{display:none;position:absolute;top:100%;left:0;right:0;background:var(--slate);border-top:1px solid #4a4e5c;box-shadow:0 12px 20px rgba(0,0,0,.3)}
+nav.open{display:block}
+nav a{display:block;padding:16px 20px;color:#fff;text-decoration:none;font-size:1.05rem;border-bottom:1px solid #3f4351}
+nav a[aria-current="page"]{box-shadow:inset 4px 0 0 var(--accent);background:#3b3f4c}
+@media(min-width:900px){.menu{display:none}nav,nav.open{display:flex;position:static;border:0;box-shadow:none;background:none;gap:2px}nav a{padding:8px 12px;font-size:.98rem;border:0}nav a[aria-current="page"]{box-shadow:inset 0 -3px 0 var(--accent);background:none}.bar{height:64px}}
+.chip{display:inline-block;background:var(--accent);color:var(--ink);font-size:.82rem;font-weight:600;padding:2px 10px;border-radius:99px;margin-bottom:10px}
+.meta{color:var(--muted);font-size:.95rem;margin-bottom:22px}
+.art p{font-size:1.08rem;line-height:1.75}
+.back{display:inline-block;margin-bottom:18px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+main section{padding:44px 0}
+.view{display:none}.view.on{display:block}
+.hero{background:var(--slate);color:#fff;padding:48px 0 56px}
+.hero p{color:#d6d9e2;font-size:1.1rem}
+.hero .grid{display:grid;gap:32px;align-items:center}
+@media(min-width:820px){.hero .grid{grid-template-columns:1.1fr 1fr}}
+.chart{background:#292c36;border:1px solid #4a4e5c;border-radius:8px;padding:14px}
+.chart small{color:#a9aebb;display:block;margin-top:6px;font-size:.85rem}
+.btn{display:inline-block;background:var(--accent);color:var(--ink);font:600 1rem "Barlow",sans-serif;padding:13px 22px;border:0;border-radius:6px;text-decoration:none;cursor:pointer}
+.btn.ghost{background:none;color:inherit;border:2px solid currentColor}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.tags{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0 0 1.4em;list-style:none}
+.tags li{border:1px solid #5a5f70;border-radius:99px;padding:4px 14px;font-size:.95rem;color:#e6e8ee}
+.cols{display:grid;gap:18px}
+@media(min-width:700px){.cols.c3{grid-template-columns:repeat(3,1fr)}.cols.c2{grid-template-columns:1fr 1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:20px}
+.card.feat{border:2px solid var(--accent)}
+.price{font:700 2rem "Barlow Condensed",sans-serif}
+.card ul{padding-left:1.1em;margin:0 0 1em;color:var(--muted)}
+.thumb{height:120px;border-radius:6px;margin-bottom:14px;background:linear-gradient(135deg,var(--slate),#4a4e5c)}
+.muted{color:var(--muted)}
+.ph{border:1px dashed var(--muted);border-radius:6px;padding:2px 8px;font-size:.9rem;color:var(--muted)}
+label{display:block;font-weight:600;margin:0 0 14px}
+input,textarea{display:block;width:100%;margin-top:6px;padding:12px;font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:6px}
+footer{background:var(--slate);color:#c3c7d2;padding:28px 0 90px;font-size:.92rem}
+.wa{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:25;background:#25d366;color:#0b2e17;font:600 .98rem "Barlow",sans-serif;padding:12px 18px;border-radius:99px;border:0;box-shadow:0 2px 10px rgba(0,0,0,.3);cursor:pointer;text-decoration:none}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--slate);color:#fff;padding:10px 18px;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
+.toast.show{opacity:1}
+nav{border-top-color:#2f5190}nav a{border-bottom-color:#1d3f7a}
+@media(max-width:899px){nav a[aria-current="page"]{background:#163a73}}
+.hero p{color:#cfdcf2}.chart{background:#0a2348;border-color:#2f5190}.chart small{color:#9fb0cc}
+.tags li{border-color:#4a6aa6;color:#e4ecfa}.thumb{background:linear-gradient(135deg,#0c2b5c,#2f5190)}footer{color:#b9c8e2}
+main section.alt{background:var(--surface);border-block:1px solid var(--line)}
+.band{background:var(--slate);color:#fff;border-radius:10px;padding:32px 24px}.band p{color:#cfdcf2}
+details{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin-bottom:10px}summary{cursor:pointer;font-weight:600}details p{margin:.8em 0 0;color:var(--muted)}
+.checks{list-style:none;padding:0;margin:0 0 1.4em}.checks li{padding:10px 0 10px 32px;position:relative;border-bottom:1px solid var(--line);max-width:62ch}.checks li::before{content:"";position:absolute;left:4px;top:15px;width:13px;height:7px;border-left:3px solid var(--accent);border-bottom:3px solid var(--accent);transform:rotate(-45deg)}
+
+.logo span{white-space:nowrap}@media(max-width:439px){.logo span{display:none}}
+header.sc{box-shadow:0 4px 18px rgba(0,0,0,.3)}.bar{transition:height .25s}header.sc .bar{height:52px}
+#prog{position:fixed;top:env(safe-area-inset-top,0px);left:0;height:3px;width:0;background:var(--accent);z-index:50}
+.view.on{animation:fade .45s both}@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.visual{position:relative}.himg{width:100%;height:340px;object-fit:cover;border-radius:10px;display:block;animation:float 7s ease-in-out infinite alternate}
+.visual .chart{position:relative;margin:-64px 12px 0;box-shadow:0 12px 30px rgba(0,0,0,.4)}
+@keyframes float{to{transform:translateY(-8px)}}
+.bars rect{transform-box:fill-box;transform-origin:bottom;animation:grow .8s cubic-bezier(.2,.8,.2,1) both}@keyframes grow{from{transform:scaleY(0)}}
+.ln{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2s .5s ease forwards}@keyframes draw{to{stroke-dashoffset:0}}
+.grid4{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}@media(min-width:700px){.grid4{grid-template-columns:repeat(4,1fr)}}
+.stat b{display:block;font:700 3.2rem "Barlow Condensed",sans-serif;color:var(--link);line-height:1}.stat span{color:var(--muted)}
+.simg{width:100%;height:200px;object-fit:cover;border-radius:6px;margin-bottom:14px;display:block}
+.pband{height:200px;border-radius:10px;background-size:cover;background-position:center;display:flex;align-items:flex-end;padding:20px;margin:0 0 22px;color:#fff}.pband p{font:700 1.7rem "Barlow Condensed",sans-serif;margin:0}
+#products .thumb,#artlist .thumb{height:170px}.aimg{width:100%;height:230px;object-fit:cover;border-radius:10px;margin-bottom:18px}
+.chipb{border:1px solid var(--line);background:var(--surface);color:var(--text);padding:6px 14px;border-radius:99px;font:inherit;cursor:pointer}.chipb.on{background:var(--slate);color:#fff;border-color:var(--slate)}
+#asearch{max-width:420px;margin-bottom:12px}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(380px,92vw);background:var(--surface);color:var(--text);z-index:60;transform:translateX(100%);transition:transform .3s;padding:calc(18px + env(safe-area-inset-top,0px)) 20px calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column}.drawer.open{transform:none}
+.dh{display:flex;justify-content:space-between;align-items:center}.dh h3{margin:0}.dh .icon{color:var(--text)}
+#citems{flex:1;overflow:auto}.ci{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.ci button{background:none;border:0;color:var(--link);cursor:pointer;font:inherit;padding:0;text-decoration:underline}
+.dtot{display:flex;justify-content:space-between;font-weight:600;padding:14px 0}.btn:disabled{opacity:.5;cursor:default}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .3s;z-index:55}.scrim.on{opacity:1;pointer-events:auto}
+.btn{transition:transform .15s}.btn:hover{transform:translateY(-2px)}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s,box-shadow .25s}.rv.in{opacity:1;transform:none}
+.card.rv.in:hover{transform:translateY(-4px);box-shadow:0 12px 26px rgba(0,0,0,.14)}
+.bump{animation:bump .35s}@keyframes bump{50%{transform:scale(1.5)}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1;transform:none}.ln{stroke-dashoffset:0}}
+
+</style>
+</head>
+<body>
+<header>
+ <div class="wrap bar">
+  <a class="logo" href="#home"><img data-img="logo" alt="" style="height:44px;border-radius:3px"><span>Endurance Performance</span></a>
+  <nav id="nav" aria-label="Menu principale">
+   <a href="#home">Home</a><a href="#chi-sono">Chi sono</a><a href="#articoli">Articoli</a><a href="#pacchetti">Pacchetti</a><a href="#shop">Shop</a><a href="#contatti">Contatti</a>
+  </nav>
+  <div class="row" style="gap:0;flex-wrap:nowrap">
+   <button class="icon" id="cartBtn" aria-label="Carrello"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.2h10.7L21 7H6"/></svg><span id="cartN">0</span></button>
+   <button class="icon menu" id="burger" aria-label="Apri menu" aria-expanded="false"><svg width="26" height="26" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" fill="none"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+  </div>
+ </div>
+</header>
+
+<main>
+<!-- HOME -->
+<div class="view" id="v-home">
+ <div class="hero"><div class="wrap grid">
+  <div>
+   <h1>Allenati sui tuoi dati, non a sensazione.</h1>
+   <ul class="tags"><li>strada</li><li>MTB</li><li>gravel</li><li>granfondo</li><li>FTP, MLSS e VO2max</li></ul>
+   <p><strong>Pedali tanto ma non migliori?</strong> Di solito il problema non sono le gambe: è un piano che non è stato fatto per te.</p>
+   <p>Programmazione personalizzata e adattiva, costruita sui tuoi dati (power, HRV, TSS/CTL/IF) e sui tuoi obiettivi.</p>
+   <div class="row"><a class="btn" href="#pacchetti">Scegli il tuo pacchetto</a><a class="btn ghost" href="#shop">Vai alle tabelle</a></div>
+   <p style="margin-top:20px"><strong>Oltre 200 atleti preparati in tutta Italia.</strong></p>
+  </div>
+  <div class="visual"><img class="himg" data-img="h" alt="Ciclista su strada in movimento"><div class="chart" aria-hidden="true">
+   <svg viewBox="0 0 360 200" width="100%" role="img" aria-label="Esempio di curva del carico di allenamento">
+    <g stroke="#2f5190" stroke-width="1"><path d="M10 40H350M10 90H350M10 140H350M10 190H350"/></g>
+    <g class="bars" fill="#ff5b3a" opacity=".4"><rect x="20" y="150" width="14" height="40"/><rect x="48" y="120" width="14" height="70"/><rect x="76" y="140" width="14" height="50"/><rect x="104" y="100" width="14" height="90"/><rect x="132" y="130" width="14" height="60"/><rect x="160" y="85" width="14" height="105"/><rect x="188" y="115" width="14" height="75"/><rect x="216" y="70" width="14" height="120"/><rect x="244" y="100" width="14" height="90"/><rect x="272" y="150" width="14" height="40"/><rect x="300" y="165" width="14" height="25"/></g>
+    <path d="M27 160C70 150 100 135 140 120S210 85 240 80 290 90 320 82" class="ln" pathLength="1" fill="none" stroke="#ffffff" stroke-width="3.5"/>
+    <circle cx="320" cy="82" r="5" fill="#ff5b3a"/>
+   </svg>
+   <small>Carico giornaliero (barre) e forma (linea): esempio illustrativo.</small>
+  </div></div>
+ </div></div>
+
+ <section><div class="wrap grid4">
+  <div class="stat"><b data-n="200" data-s="+">0</b><span>atleti preparati in tutta Italia</span></div>
+  <div class="stat"><b data-n="12">0</b><span>settimane tra un test e l’altro</span></div>
+  <div class="stat"><b data-n="100" data-s="">0</b><span>allenamenti nella libreria (quasi)</span></div>
+  <div class="stat"><b data-n="4">0</b><span>discipline: strada, MTB, gravel, granfondo</span></div>
+ </div></section>
+
+ <section class="alt"><div class="wrap">
+  <h2>Perché i piani standard non bastano</h2>
+  <div class="cols c3">
+   <div class="card"><h3>Uguali per tutti</h3><p class="muted">Una tabella scaricata non sa quante ore hai, come dormi o da dove parti. Così carichi troppo in certi giorni e troppo poco in altri.</p></div>
+   <div class="card"><h3>A sensazione</h3><p class="muted">Senza misurare, è facile fare sempre la stessa uscita a ritmo medio: abbastanza dura da stancare, non abbastanza mirata per migliorare.</p></div>
+   <div class="card"><h3>Senza verifica</h3><p class="muted">Se non controlli carico e recupero, non sai se il piano funziona. Lo scopri tardi, a stagione già compromessa.</p></div>
+  </div>
+ </div></section>
+
+ <section class="alt"><div class="wrap">
+  <h2>Cosa cambia con un piano su misura</h2>
+  <ul class="checks">
+   <li>Ogni seduta ha uno scopo preciso, legato al tuo obiettivo.</li>
+   <li>Il carico si adatta a lavoro, famiglia, recupero e forma del momento.</li>
+   <li>Misuri i progressi con numeri chiari: potenza, soglia, carico e recupero.</li>
+   <li>Arrivi alla gara fresco e sicuro, non stanco e pieno di dubbi.</li>
+   <li>Hai un coach a cui chiedere, invece di decidere da solo ogni giorno.</li>
+  </ul>
+  <a class="btn" href="#pacchetti">Guarda i pacchetti</a>
+ </div></section>
+
+ <section><div class="wrap">
+  <h2>Per chi è questo servizio</h2>
+  <div class="cols c2">
+   <div class="card feat"><h3>È per te se</h3><ul><li>vuoi migliorare in modo misurabile;</li><li>hai poche ore e vuoi sfruttarle bene;</li><li>prepari una granfondo, una gara o un obiettivo personale;</li><li>riparti dopo uno stop o un infortunio.</li></ul></div>
+   <div class="card"><h3>Non è per te se</h3><ul><li>cerchi risultati senza costanza;</li><li>non vuoi registrare i tuoi allenamenti;</li><li>ti aspetti una soluzione magica in due settimane.</li></ul></div>
+  </div>
+ </div></section>
+
+ <section class="alt"><div class="wrap">
+  <h2>I miei servizi</h2>
+  <div class="cols c3">
+   <div class="card"><img class="simg" data-img="p" alt="Gruppo di ciclisti in gara" loading="lazy"><h3>Programmi personalizzati</h3><p class="muted">Ogni piano nasce dal profilo fisiologico dell’atleta, con test di soglia, dati storici e feedback oggettivi. Nessuna tabella standard: solo strategia su misura.</p></div>
+   <div class="card"><img class="simg" data-img="r" alt="Ciclista con maglia rossa" loading="lazy"><h3>Consulenza e revisione</h3><p class="muted">Ogni settimana rivediamo i carichi (TSS, IF, CTL, HRV) per valutare il piano ed evitare overreaching o stagnazione. Coaching, non supervisione.</p></div>
+   <div class="card"><img class="simg" data-img="g" alt="Ciclocomputer sul manubrio" loading="lazy"><h3>Test di controllo</h3><p class="muted">Test di soglia (FTP, MLSS, potenza critica) ogni 12 settimane, in sede o da remoto, per aggiornare le zone di lavoro e la curva potenza/durata.</p></div>
+  </div>
+ </div></section>
+
+ <section><div class="wrap">
+  <h2>Testimonianze</h2>
+  <div class="cols c2">
+   <div class="card feat"><p>“Da quando seguo la tua preparazione il mio approccio all’allenamento è cambiato totalmente. Miglioro costantemente, senza i cali di forma che avevo in passato.”</p><p class="muted" style="margin:0">Luca Guasti</p></div>
+   <div class="card feat"><p>“Grazie agli accorgimenti del periodo pre-season è arrivata la vittoria assoluta nel percorso Medio della Granfondo del Vulture. Mi sei stato vicino fino al giorno della gara.”</p><p class="muted" style="margin:0">Samuel</p></div>
+   <div class="card"><p>“Ho praticamente eguagliato il mio best time su una salita in MTB, senza strafare e restando il più possibile in Z3. Credo che siamo sulla giusta strada.”</p><p class="muted" style="margin:0">Francesco</p></div>
+   <div class="card"><p>“Vinco la mia categoria e ho impiegato minuti in meno rispetto allo scorso anno. Grazie mille per tutto.”</p><p class="muted" style="margin:0">Giuseppe</p></div>
+  </div>
+  <div style="display:none">
+  </div>
+ </div></section>
+
+ <section class="alt"><div class="wrap" style="max-width:720px">
+  <h2>Domande frequenti</h2>
+  <details><summary>Serve un power meter?</summary><p>È consigliato, perché rende le misure più precise. Si può comunque iniziare con la frequenza cardiaca e le sensazioni guidate.</p></details>
+  <details><summary>Quante ore a settimana servono?</summary><p>Il piano si costruisce sulle ore che hai davvero. Poche ore ben usate rendono più di molte ore a caso.</p></details>
+  <details><summary>Come ricevo gli allenamenti?</summary><p><span class="ph">Da confermare: piattaforma usata dal coach</span></p></details>
+  <details><summary>Come si inizia?</summary><p>Mi scrivi il tuo obiettivo e la tua situazione. Ti rispondo e scegliamo insieme il pacchetto più adatto.</p></details>
+ </div></section>
+
+ <section><div class="wrap">
+  <div class="band">
+   <h2>Pronto a pedalare con un piano vero?</h2>
+   <p>Scrivimi il tuo obiettivo e la tua situazione: ti dico da dove partire.</p>
+   <div class="row"><a class="btn" href="#contatti">Scrivimi</a><button class="btn ghost" id="ctaWa" style="color:#fff">Invia su WhatsApp</button></div>
+  </div>
+ </div></section>
+</div>
+
+<!-- CHI SONO -->
+<div class="view" id="v-chi-sono"><section><div class="wrap">
+ <h1>Chi sono</h1>
+ <div class="cols c2">
+  <img class="simg" data-img="coach" alt="Gennaro Seguella, coach di Endurance &amp; Performance Training System Lab" style="height:auto;max-height:540px;object-position:50% 15%" loading="lazy">
+  <div>
+   <p>L’Endurance & Performance Training Lab è un servizio specializzato nell’allenamento e nel miglioramento delle prestazioni sportive. Attraverso un approccio personalizzato e basato sui dati, ti aiutiamo a raggiungere i tuoi obiettivi in modo efficace e sostenibile.</p>
+   <p>Grazie a programmi su misura, monitoraggio avanzato e strategie di allenamento mirate, ottimizzo la tua performance e massimizzo il tuo potenziale, garantendoti risultati concreti e duraturi.</p>
+   <p>Il coach è Gennaro Seguella. Su Instagram, <a href="https://www.instagram.com/epcyclingcoach_/" target="_blank" rel="noopener">@epcyclingcoach_</a>, condivide allenamenti, test e spiegazioni tecniche.</p>
+   <p><span class="ph">Percorso, titoli ed esperienza da inserire</span></p>
+   <a class="btn" href="#contatti">Scrivimi</a>
+  </div>
+ </div>
+</div></section></div>
+
+<!-- ARTICOLI -->
+<div class="view" id="v-articoli"><section><div class="wrap">
+ <h1>Articoli</h1>
+ <p class="muted">Articoli di esempio: quelli veri verranno pubblicati dal coach dal pannello di amministrazione.</p>
+ <input id="asearch" type="search" placeholder="Cerca negli articoli…" aria-label="Cerca negli articoli">
+ <div class="row" id="achips" style="margin-bottom:22px;gap:8px"></div>
+ <div class="cols c3" id="artlist"></div>
+</div></section></div>
+<div class="view" id="v-articolo"><section><div class="wrap art" style="max-width:680px" id="artview"></div></section></div>
+
+<!-- PACCHETTI -->
+<div class="view" id="v-pacchetti"><section><div class="wrap">
+ <h1>Pacchetti collaborazione</h1>
+ <div class="pband" data-bg="pb"><p>Scegli il tuo pacchetto su misura per te</p></div>
+ <p class="muted">Ogni pacchetto include un piano personalizzato, costruito su analisi fisiologiche individuali e periodizzazione evidence-based. Gli allenamenti arrivano direttamente sul tuo ciclocomputer.</p>
+ <div class="cols c3" id="pklist"></div>
+ <p class="muted" style="margin-top:18px">Il listino del solo test e dell’analisi delle zone metaboliche è disponibile su richiesta.</p>
+</div></section></div>
+
+<!-- SHOP -->
+<div class="view" id="v-shop"><section><div class="wrap">
+ <h1>Shop: tabelle di allenamento ciclismo</h1>
+ <div class="cols c3" id="products"></div>
+ <p class="muted" style="margin-top:18px">I programmi sono piani generali: non sostituiscono il coaching individuale né una valutazione medica, ed è consigliabile il certificato di idoneità sportiva. Il pagamento verrà collegato con Stripe o un servizio simile; qui il carrello è solo dimostrativo.</p>
+</div></section></div>
+
+<!-- CONTATTI -->
+<div class="view" id="v-contatti"><section><div class="wrap" style="max-width:640px">
+ <h1>Contatti</h1>
+ <p class="muted">Racconta in poche righe il tuo obiettivo. Il messaggio si apre in WhatsApp, pronto da inviare.</p>
+ <label>Nome<input id="cn" autocomplete="name"></label>
+ <label>Obiettivo<textarea id="cm" rows="4" placeholder="Es. preparare una granfondo a giugno"></textarea></label>
+ <button class="btn" id="send">Invia su WhatsApp</button>
+ <p class="muted" style="margin-top:22px">Instagram: <a href="https://www.instagram.com/epcyclingcoach_/" target="_blank" rel="noopener">@epcyclingcoach_</a>. Scrivi “COACHING” in Direct.</p>
+ <div class="card" style="margin-top:8px"><h3>Endurance &amp; Performance Training Lab</h3><p style="margin:0 0 8px"><b>Sede</b><br><a href="https://www.google.com/maps/search/?api=1&query=Via+Arcangelone+Colli+a+Volturno+86073+Isernia" target="_blank" rel="noopener">Via Arcangelone Colli a Volturno, 86073 Isernia</a></p><p style="margin:0 0 8px"><b>Telefono</b><br><a href="tel:+393312059990">331 20 59 990</a></p><p style="margin:0"><b>Email</b><br><a href="mailto:seguella.training@hotmail.com">seguella.training@hotmail.com</a></p></div>
+</div></section></div>
+<div class="view" id="v-grazie"><section><div class="wrap" style="max-width:640px"><h1>Grazie per l’acquisto!</h1><p>Qui sotto trovi i tuoi download. Ti abbiamo inviato i link anche via email, validi 7 giorni.</p><div id="dl"></div></div></section></div>
+</main>
+
+<footer><div class="wrap">Endurance & Performance Training System Lab · Gennaro Seguella · Isernia · 331 20 59 990 · Scienza dietro la performance · @epcyclingcoach_ · Privacy e cookie policy da aggiungere.<div style="margin-top:12px"><a href="admin.html" style="color:#fff">Area riservata</a></div></div></footer>
+
+<button class="wa" id="share">Invia su WhatsApp</button>
+<div id="prog"></div>
+<aside class="drawer" id="drawer" aria-label="Carrello"><div class="dh"><h3>Carrello</h3><button class="icon" id="dx" aria-label="Chiudi">✕</button></div><div id="citems"></div><div class="dtot"><span>Totale</span><b id="ctot">0,00 €</b></div><label style="margin:0 0 10px;font-size:.92rem">Email per ricevere i programmi<input id="cemail" type="email" autocomplete="email" placeholder="nome@email.it"></label><button class="btn" id="order">Paga ora</button><p class="muted" style="font-size:.85rem;margin:10px 0 0">Pagamento sicuro gestito da Stripe. Dopo l’acquisto ricevi i programmi via email.</p></aside>
+<div class="scrim" id="scrim"></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="config.js"></script>
+<script>
+var DB=window.CFG&&CFG.url?CFG:null;
+var CHECKOUT_URL=DB?CFG.url+"/functions/v1/checkout":"";
+function H(){return {"Content-Type":"application/json",apikey:CFG.key,Authorization:"Bearer "+CFG.key}}
+function E(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+var F3="Piano personalizzato su analisi fisiologiche\nAllenamenti caricati sul tuo ciclocomputer\nMonitoraggio di potenza, frequenza cardiaca e soglia";
+var packs=[{name:"Trimestrale",price_cents:12000,note:"40 € al mese",features:F3},{name:"Semestrale",price_cents:21000,note:"35 € al mese",features:F3},{name:"Annuale",price_cents:39000,note:"32,50 € al mese",features:F3}];
+function renderPacks(){var el=document.getElementById("pklist");el.innerHTML=packs.map(function(p,i){return '<div class="card'+(i===1?' feat':'')+'"><h3>'+E(p.name)+'</h3><p class="muted">'+E(p.note)+'</p><div class="price">'+eur(p.price_cents/100)+'</div><ul>'+(p.features||"").split("\n").filter(Boolean).map(function(f){return '<li>'+E(f)+'</li>'}).join("")+'</ul><a class="btn'+(i===1?'':' ghost')+'" style="'+(i===1?'':'color:var(--text)')+'" href="#contatti">Richiedi info</a></div>'}).join("");reveal(el)}
+function api(p){return fetch(CFG.url+"/rest/v1/"+p,{headers:{apikey:CFG.key,Authorization:"Bearer "+CFG.key}}).then(function(r){return r.json()})}
+function loadAll(){return Promise.all([api("articles?published=eq.true&order=created_at.desc"),api("products?active=eq.true&order=created_at.asc"),api("packages?order=sort.asc")]).then(function(v){
+ articles=v[0].map(function(a){var t=a.body||"";return {t:E(a.title),c:E(a.category||"Articoli"),d:new Date(a.created_at).toLocaleDateString("it-IT",{day:"numeric",month:"long",year:"numeric"}),r:Math.max(1,Math.round(t.split(/\s+/).length/200))+" min",x:E(a.excerpt),b:t.split(/\n+/).filter(Boolean).map(E),img:a.image_url}});
+ products=v[1].map(function(p){return [E(p.name),E(p.description),p.price_cents?eur(p.price_cents/100):"Gratis",p.image_url,p.id,p.price_cents]});
+ packs=v[2];renderProducts();renderPacks();renderList()}).catch(function(){})}
+function getLinks(b){var el=document.getElementById("dl");location.hash="grazie";
+ if(!DB){el.innerHTML='<p class="muted">Demo: il download funziona quando il sito è collegato a Supabase.</p>';return}
+ el.innerHTML='<p class="muted">Preparo i tuoi file…</p>';
+ fetch(CFG.url+"/functions/v1/download",{method:"POST",headers:H(),body:JSON.stringify(b)}).then(function(r){return r.json()}).then(function(d){el.innerHTML=d.files&&d.files.length?d.files.map(function(f){return '<p><a class="btn" href="'+f.url+'" target="_blank" rel="noopener">Scarica: '+E(f.name)+'</a></p>'}).join(""):'<p class="muted">Nessun file disponibile. Scrivici e ti aiutiamo.</p>'}).catch(function(){el.innerHTML='<p class="muted">Errore nel recupero dei file. Riprova o scrivici.</p>'})}
+var WA_NUMBER="393312059990"; // numero del cliente, formato 39XXXXXXXXXX
+var views=["home","chi-sono","articoli","articolo","pacchetti","shop","contatti","grazie"];
+var articles=[
+{t:"Cos’è il CTL e perché conta",c:"Carico di allenamento",d:"28 ottobre 2026",r:"3 min",x:"Il CTL dice quanto lavoro il tuo corpo è abituato a sostenere.",b:["Il CTL (Chronic Training Load) è una media mobile del carico di allenamento, di solito calcolata sugli ultimi 42 giorni. Più è alto, più lavoro il tuo corpo ha imparato a reggere.","Accanto al CTL c’è l’ATL, cioè la fatica degli ultimi 7 giorni. La differenza tra i due, chiamata TSB, indica quanto sei fresco: valori negativi dopo un blocco duro, positivi quando sei scarico.","L’obiettivo non è far salire il CTL il più in fretta possibile, ma farlo crescere in modo graduale e arrivare alla gara con una forma positiva."]},
+{t:"HRV: come usarla ogni mattina",c:"Recupero",d:"21 ottobre 2026",r:"3 min",x:"Un valore al giorno non basta: conta l’andamento nel tempo.",b:["La HRV misura la variazione del tempo tra un battito e l’altro. Si rileva al mattino, a riposo, sempre nelle stesse condizioni e con lo stesso strumento.","Il singolo valore dice poco. Conta il confronto con la tua media delle ultime settimane: se resta più bassa del solito per più giorni, il corpo sta chiedendo recupero.","Usala insieme a sonno, sensazioni e carico di lavoro, non da sola. Serve a decidere se confermare, alleggerire o spostare una seduta dura."]},
+{t:"Allenarsi a potenza in inverno",c:"Programmazione",d:"14 ottobre 2026",r:"4 min",x:"Come costruire la base con zone, test e sedute indoor.",b:["L’inverno è il momento di costruire la base. Si parte da un test per stimare la soglia (FTP) e da lì si definiscono le zone di allenamento.","Le sedute indoor permettono di controllare la potenza con precisione: blocchi in zona 2 per la resistenza, lavori a soglia per alzare il livello medio.","Ripeti il test ogni 6-8 settimane e aggiorna le zone: un piano basato su dati vecchi allena una persona che non esiste più."]}];
+articles=[
+{t:"La tua FTP è alta. Ma dopo 3 ore?",c:"Durabilità",d:"29 ottobre 2026",r:"3 min",x:"La potenza a inizio uscita non dice quanto reggerai a fine gara.",b:["L’FTP si misura da freschi, ma una gara o una granfondo si decide quando sei già stanco. Con il lavoro accumulato la potenza che riesci a esprimere può scendere anche del 10%, per esempio da 300 W a 270 W.","Questa capacità di conservare la potenza nel tempo si chiama durabilità. Si allena con sedute lunghe di qualità, lavori sotto fatica e una buona gestione dell’alimentazione.","Per questo, oltre al test di soglia, conviene misurare cosa succede alla tua potenza dopo ore di lavoro e programmare di conseguenza."]},
+{t:"Ti alleni tanto, ma in gara non basta",c:"Programmazione",d:"22 ottobre 2026",r:"3 min",x:"Il volume da solo non prepara a una gara: serve lavoro specifico.",b:["Molti ciclisti accumulano ore e chilometri, ma in gara restano senza risposta. Il problema spesso non è la quantità, ma la mancanza di lavoro specifico per ciò che la gara richiede.","Una gara a circuito, per esempio, chiede sforzi brevi e intensi ripetuti con poco recupero. Allenarsi solo a ritmo costante non prepara a questo.","Un piano valido parte dall’analisi dell’obiettivo e costruisce sedute che gli assomigliano, dosando volume e intensità."]},
+{t:"Over/Under: il controllo della soglia",c:"Allenamenti",d:"15 ottobre 2026",r:"3 min",x:"Alternare poco sopra e poco sotto la soglia insegna a gestire i cambi di ritmo.",b:["Gli over/under alternano minuti appena sopra la soglia a minuti appena sotto, per esempio in blocchi da 12 minuti attorno all’FTP.","Il lavoro sopra la soglia produce lattato, quello sotto ti insegna a smaltirlo mentre continui a pedalare. È utile per scatti, salite a ritmo variabile e ripartenze.","La chiave è il controllo: i segmenti vanno rispettati con precisione, altrimenti la seduta diventa un’altra cosa."]},
+{t:"Pedali tanto, ma alleni la forza?",c:"Forza",d:"8 ottobre 2026",r:"3 min",x:"La forza, in palestra e in sella, migliora efficienza e potenza.",b:["Anche chi pedala molto può trascurare la forza. Il lavoro con i pesi, ben programmato, migliora la capacità di produrre potenza e riduce il costo dello sforzo.","In sella si lavora sulla forza resistente: ripetute a bassa cadenza e alta coppia, da seduti, con recuperi adeguati.","Va inserita con criterio, senza sovraccaricare la settimana e senza togliere spazio alle sedute chiave."]},
+{t:"La tua Z2 sta davvero costruendo endurance?",c:"Base",d:"1 ottobre 2026",r:"3 min",x:"Fare tante ore non basta: conta come le fai.",b:["La zona 2 è la base di ogni piano di endurance, ma funziona solo se resti davvero in zona. Troppe uscite finiscono a ritmo medio, né facili né mirate.","Controlla potenza e frequenza cardiaca: se il cuore sale mentre i watt restano uguali, stai accumulando fatica e la seduta sta cambiando natura.","Poche uscite fatte bene valgono più di molte uscite fatte a caso."]},
+{t:"Mitocondri: le centrali energetiche del muscolo",c:"Fisiologia",d:"24 settembre 2026",r:"3 min",x:"Perché l’adattamento mitocondriale è alla base della resistenza.",b:["I mitocondri sono le strutture delle cellule muscolari che usano ossigeno, grassi e zuccheri per produrre energia sotto forma di ATP.","Un allenamento mirato ne aumenta numero ed efficienza: il muscolo produce più energia aerobica e si affatica più tardi.","Questo adattamento richiede costanza e tempo, ed è alla base della capacità di sostenere sforzi lunghi."]}];
+function renderList(){
+ var cats=["Tutti"].concat(articles.map(function(a){return a.c}).filter(function(c,i,x){return x.indexOf(c)===i}));
+ document.getElementById("achips").innerHTML=cats.map(function(c){return '<button class="chipb'+(c===fcat?' on':'')+'" data-c="'+c+'">'+c+'</button>'}).join("");
+ var h=articles.map(function(a,i){return {a:a,i:i}}).filter(function(o){return (fcat==="Tutti"||o.a.c===fcat)&&(o.a.t+" "+o.a.x+" "+o.a.c).toLowerCase().indexOf(fq)>-1}).map(function(o){return '<article class="card rv"><div class="thumb" style="background:url('+(o.a.img||AIM[o.i%AIM.length])+') center/cover"></div><span class="chip">'+o.a.c+'</span><h3>'+o.a.t+'</h3><p class="muted">'+o.a.x+'</p><a href="#articolo-'+o.i+'">Leggi l’articolo</a></article>'}).join("");
+ var l=document.getElementById("artlist");l.innerHTML=h||'<p class="muted">Nessun articolo trovato.</p>';reveal(l);
+}
+function renderArt(i){var a=articles[i];document.getElementById("artview").innerHTML='<img class="aimg" src="'+(a.img||AIM[i%AIM.length])+'" alt=""><a class="back" href="#articoli">Tutti gli articoli</a><span class="chip">'+a.c+'</span><h1>'+a.t+'</h1><div class="meta">'+a.d+' · lettura di '+a.r+'</div>'+a.b.map(function(p){return '<p>'+p+'</p>'}).join("")+'<button class="btn" id="artwa">Invia su WhatsApp</button>';document.getElementById("artwa").onclick=function(){window.open(waLink(a.t+": "+location.href),"_blank")}}
+var products=[["Libreria allenamenti, accesso 12 mesi","Quasi 100 allenamenti strutturati, in doppia versione rulli e strada, consegnati su Intervals.icu. Un solo pagamento, nessun rinnovo.","39,90 €"],["Build 12 2.0: preparazione invernale","PDF di 73 pagine per ciclisti amatori evoluti con misuratore di potenza e 6-9 ore a settimana. Versione rulli e strada.","29,90 €"],["Endurance Performance Build 12","Programma di preparazione in 12 settimane, in offerta limitata.","19,90 €"],["Build 8 settimane (gratis)","PDF di 17 pagine: potenza aerobica e forza resistente, 24 sedute complete in versione strada e rulli.","Gratis"]];
+var cart=[];var IMG={coach:"coach.jpg",p:"peloton.jpg",r:"ciclista-rosso.jpg",g:"ciclocomputer.jpg",h:"hero.jpg",logo:"logo.jpg",lib:"libreria.jpg",b8:"build8.jpg",b12:"build12.jpg",pb:"fascia-pacchetti.jpg"};
+products[0][3]=IMG.lib;products[1][3]=IMG.b12;products[3][3]=IMG.b8;
+var AIM=[IMG.h,IMG.g,IMG.p,IMG.r,IMG.g,IMG.p],fcat="Tutti",fq="",RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
+function waLink(t){return "https://wa.me/"+WA_NUMBER+"?text="+encodeURIComponent(t)}
+function show(){
+ var h=(location.hash||"#home").slice(1),k=h;
+ if(h.indexOf("articolo-")===0){var i=+h.slice(9);if(articles[i]){renderArt(i);h="articolo";k="articoli"}else{h=k="articoli"}}
+ else if(views.indexOf(h)<0){h=k="home"}
+ views.forEach(function(v){document.getElementById("v-"+v).classList.toggle("on",v===h)});
+ document.querySelectorAll("nav a").forEach(function(a){if(a.getAttribute("href")==="#"+k)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+ document.getElementById("nav").classList.remove("open");
+ document.getElementById("burger").setAttribute("aria-expanded","false");
+ window.scrollTo(0,0);
+}
+function toast(m){var t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(function(){t.classList.remove("show")},1800)}
+function renderProducts(){document.getElementById("products").innerHTML=products.map(function(p,i){return '<div class="card"><div class="thumb" '+(p[3]?'style="background:url('+p[3]+') center/cover"':'')+'></div><h3>'+p[0]+'</h3><p class="muted">'+p[1]+'</p><div class="price">'+p[2]+'</div>'+(p[5]===0?'<button class="btn" data-free="'+i+'" style="margin-top:10px">Scarica gratis</button>':'<button class="btn" data-i="'+i+'" style="margin-top:10px">Aggiungi al carrello</button>')+'</div>'}).join("");reveal(document.getElementById("products"))}
+renderProducts();
+document.getElementById("products").addEventListener("click",function(e){if(e.target.dataset.free!==undefined){getLinks({free:products[+e.target.dataset.free][4]});return}if(e.target.dataset.i!==undefined){var i=+e.target.dataset.i,c=cart.filter(function(x){return x.i===i})[0];if(c)c.q++;else cart.push({i:i,q:1});drawCart();toast("Aggiunto al carrello");var n=document.getElementById("cartN");n.classList.remove("bump");void n.offsetWidth;n.classList.add("bump")}});
+document.getElementById("burger").onclick=function(){var n=document.getElementById("nav");var o=n.classList.toggle("open");this.setAttribute("aria-expanded",o)};
+document.getElementById("share").onclick=function(){window.open(waLink("Guarda la bozza del sito Endurance Performance: "+location.href),"_blank")};
+document.getElementById("send").onclick=function(){var n=document.getElementById("cn").value.trim(),m=document.getElementById("cm").value.trim();if(!m){toast("Scrivi il tuo obiettivo");return}window.open(waLink("Ciao, sono "+(n||"un atleta")+". "+m),"_blank")};
+document.addEventListener("click",function(e){if(!e.target.closest("header")){document.getElementById("nav").classList.remove("open");document.getElementById("burger").setAttribute("aria-expanded","false")}});
+document.getElementById("ctaWa").onclick=function(){window.open(waLink("Ciao, vorrei informazioni sui piani di allenamento di ciclismo"),"_blank")};
+function num(t){return t==="Gratis"?0:parseFloat(t.replace(",","."))}
+function eur(n){return n.toFixed(2).replace(".",",")+" €"}
+function total(){return cart.reduce(function(t,c){return t+num(products[c.i][2])*c.q},0)}
+function drawCart(){var n=0;document.getElementById("citems").innerHTML=cart.length?cart.map(function(c,k){n+=c.q;var p=products[c.i];return '<div class="ci"><div><b>'+p[0]+'</b><br><span class="muted">'+c.q+' × '+p[2]+'</span></div><div>'+eur(num(p[2])*c.q)+'<br><button data-k="'+k+'">Rimuovi</button></div></div>'}).join(""):'<p class="muted">Il carrello è vuoto.</p>';document.getElementById("ctot").textContent=eur(total());document.getElementById("cartN").textContent=n;var ob=document.getElementById("order");ob.disabled=!cart.length;ob.textContent=cart.length?"Paga ora · "+eur(total()):"Paga ora"}
+function openCart(o){document.getElementById("drawer").classList.toggle("open",o);document.getElementById("scrim").classList.toggle("on",o)}
+function count(el){var n=+el.dataset.n,sf=el.dataset.s||"",t0=null;if(RM){el.textContent=n+sf;return}function f(t){if(!t0)t0=t;var p=Math.min((t-t0)/1400,1);el.textContent=Math.round(n*(1-Math.pow(1-p,3)))+sf;if(p<1)requestAnimationFrame(f)}requestAnimationFrame(f)}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);if(e.target.dataset.n)count(e.target)}})},{threshold:.12});
+function reveal(r){if(!io)return;(r||document).querySelectorAll(".card,.band,h2,.checks li,details,.stat,.stat b,.pband").forEach(function(e){if(!e.classList.contains("rv"))e.classList.add("rv");if(!e.classList.contains("in")&&!e.dataset.o){e.dataset.o=1;io.observe(e)}})}
+document.querySelectorAll("[data-img]").forEach(function(e){e.src=IMG[e.dataset.img]});
+document.querySelector("[data-bg]").style.backgroundImage="linear-gradient(rgba(10,35,72,.5),rgba(10,35,72,.5)),url("+IMG.pb+")";
+document.querySelectorAll(".bars rect").forEach(function(r,i){r.style.animationDelay=i*70+"ms"});
+document.getElementById("cartBtn").onclick=function(){openCart(true)};document.getElementById("dx").onclick=document.getElementById("scrim").onclick=function(){openCart(false)};
+document.getElementById("citems").addEventListener("click",function(e){if(e.target.dataset.k!==undefined){cart.splice(+e.target.dataset.k,1);drawCart()}});
+document.getElementById("order").onclick=function(){
+ var em=document.getElementById("cemail").value.trim();
+ if(!/^\S+@\S+\.\S+$/.test(em)){toast("Inserisci un’email valida");document.getElementById("cemail").focus();return}
+ if(!CHECKOUT_URL){toast("Demo: collega Supabase e Stripe per pagare");return}
+ var b=this;b.disabled=true;b.textContent="Reindirizzamento…";
+ fetch(CHECKOUT_URL,{method:"POST",headers:H(),body:JSON.stringify({email:em,origin:location.origin,items:cart.map(function(c){return {id:products[c.i][4],q:c.q}})})}).then(function(r){return r.json()}).then(function(d){if(d.url)location.href=d.url;else throw 0}).catch(function(){toast("Errore nel pagamento, riprova");drawCart()});
+};
+document.getElementById("asearch").oninput=function(){fq=this.value.trim().toLowerCase();renderList()};
+document.getElementById("achips").addEventListener("click",function(e){if(e.target.dataset.c){fcat=e.target.dataset.c;renderList()}});
+addEventListener("scroll",function(){var d=document.documentElement,h=d.scrollHeight-innerHeight;document.getElementById("prog").style.width=(h>0?scrollY/h*100:0)+"%";document.querySelector("header").classList.toggle("sc",scrollY>30)},{passive:true});
+var sm=location.search.match(/sid=([^&]+)/);
+drawCart();renderList();renderPacks();reveal();
+if(DB){loadAll();if(sm){history.replaceState(null,"",location.pathname);getLinks({sid:sm[1]})}}window.addEventListener("hashchange",show);show();
+</script>
+</body>
+</html>
