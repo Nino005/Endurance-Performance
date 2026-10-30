@@ -1,0 +1,49 @@
+CONTENUTO: index.html (sito), admin.html (area riservata), config.js, immagini .jpg, file supabase-*.
+Senza compilare config.js sia il sito sia l'admin funzionano in modalità demo (dati di esempio, nulla viene salvato).
+
+GUIDA ALL'INSTALLAZIONE (tutto gratuito, tempo stimato: 40 minuti)
+
+1) SUPABASE (archivio contenuti + area riservata)
+   - Crea un progetto gratuito su supabase.com.
+   - SQL Editor: incolla il contenuto di supabase-setup.sql e premi Run.
+   - Authentication > Users > Add user: email e password del cliente.
+   - Authentication > Sign In / Providers: DISATTIVA "Allow new users to sign up".
+   - Project Settings > API: copia "Project URL" e "anon public key" dentro config.js.
+
+2) STRIPE (pagamenti)
+   - Crea l'account su stripe.com intestato al cliente. Lavora prima in modalità test.
+   - Developers > API keys: copia la Secret key (sk_...).
+
+3) FUNZIONI SUPABASE (3 file: supabase-checkout.ts, supabase-download.ts, supabase-stripe-webhook.ts)
+   - Edge Functions > Deploy a new function > Via Editor. Crea tre funzioni con questi NOMI
+     e incolla il codice: checkout, download, stripe-webhook.
+   - Per "stripe-webhook" disattiva "Verify JWT".
+   - Edge Functions > Secrets: aggiungi STRIPE_SECRET_KEY (sk_...).
+
+4) WEBHOOK STRIPE
+   - Stripe > Developers > Webhooks > Add endpoint:
+     URL = https://IL-TUO-PROGETTO.supabase.co/functions/v1/stripe-webhook
+     Evento = checkout.session.completed
+   - Copia il "Signing secret" (whsec_...) e aggiungilo nei Secrets di Supabase come STRIPE_WEBHOOK_SECRET.
+
+5) EMAIL CON I LINK (opzionale ma consigliata)
+   - Crea un account gratuito su resend.com, verifica il dominio del cliente, crea una API key.
+   - Secrets di Supabase: RESEND_API_KEY e MAIL_FROM (es. Endurance Performance <info@dominio.it>).
+   - Senza questo passaggio il cliente scarica comunque i file dalla pagina dopo il pagamento.
+
+6) PUBBLICAZIONE
+   - Compila config.js, poi vai su app.netlify.com/drop e trascina questa cartella.
+   (I file supabase-*.ts, supabase-setup.sql e LEGGIMI.txt non servono al sito: puoi toglierli prima di caricare. Non contengono password.)
+   - Collega il dominio da Domain management.
+
+7) USO QUOTIDIANO DEL CLIENTE
+   - Apre https://suodominio.it/admin.html, accede, e usa Articoli, Shop, Pacchetti e Acquisti.
+   - Per un prodotto a pagamento carica il file da scaricare: viene salvato in un'area privata.
+
+PROVA: con Stripe in modalità test usa la carta 4242 4242 4242 4242 (data futura, CVC qualsiasi).
+POI: in Stripe passa alla modalità live e sostituisci la Secret key e il Signing secret del webhook.
+
+DA SAPERE
+ - Il piano gratuito di Supabase mette in pausa il progetto dopo circa 7 giorni senza attività: controlla.
+ - Servono privacy policy, cookie policy e condizioni di vendita; per i prodotti digitali valgono regole su IVA e recesso.
+ - Stripe trattiene una commissione su ogni vendita.

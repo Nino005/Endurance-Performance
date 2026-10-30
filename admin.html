@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin – Endurance Performance</title>
+<meta name="robots" content="noindex">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script><script src="config.js"></script>
+<style>
+body{margin:0;font:16px/1.5 system-ui,sans-serif;background:#eef2f7;color:#0f1a2e}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:#0c2b5c;padding:12px 16px;color:#fff}.bar b{margin-right:10px}
+button{font:inherit;padding:8px 14px;border-radius:6px;border:1px solid #b9c4d6;background:#fff;cursor:pointer}.bar button.on{background:#ff5b3a;border-color:#ff5b3a}
+main{max-width:760px;margin:0 auto;padding:16px}.box{background:#fff;border-radius:10px;padding:18px;margin:16px auto;max-width:520px}
+label{display:block;margin:0 0 12px;font-weight:600}input:not([type=checkbox]),textarea{display:block;width:100%;box-sizing:border-box;margin-top:4px;padding:10px;font:inherit;border:1px solid #b9c4d6;border-radius:6px}
+form button:not([type=button]){background:#0c2b5c;color:#fff;border-color:#0c2b5c}small{font-weight:400;color:#52607a}
+ul{list-style:none;padding:0}li{display:flex;justify-content:space-between;gap:10px;align-items:center;background:#fff;border-radius:8px;padding:10px 14px;margin-bottom:8px}li span{white-space:nowrap}
+table{width:100%;border-collapse:collapse;background:#fff}td,th{padding:8px;border-bottom:1px solid #d3dbe8;text-align:left;font-size:.92rem}
+</style></head><body><div id="app"></div>
+<script>
+function demoClient(){
+ const now=Date.now(),d=h=>new Date(now-h*36e5).toISOString();
+ const db={articles:[{id:1,title:"Cos’è il CTL e perché conta",category:"Carico di allenamento",excerpt:"Il CTL dice quanto lavoro il tuo corpo è abituato a sostenere.",body:"Il CTL è una media mobile del carico di allenamento.",image_url:"",published:true,created_at:d(48)},{id:2,title:"La tua FTP è alta. Ma dopo 3 ore?",category:"Durabilità",excerpt:"La potenza a inizio uscita non dice quanto reggerai a fine gara.",body:"L’FTP si misura da freschi.",image_url:"",published:true,created_at:d(120)}],
+  products:[{id:1,name:"Libreria allenamenti, accesso 12 mesi",description:"Quasi 100 allenamenti strutturati",price_cents:3990,image_url:"",file_path:"libreria.pdf",active:true},{id:2,name:"Build 12 2.0: preparazione invernale",description:"PDF di 73 pagine",price_cents:2990,image_url:"",file_path:"build12.pdf",active:true},{id:3,name:"Build 8 settimane (gratis)",description:"PDF di 17 pagine",price_cents:0,image_url:"",file_path:"build8.pdf",active:true}],
+  packages:[{id:1,name:"Trimestrale",price_cents:12000,note:"40 € al mese",features:"Piano personalizzato\nAllenamenti sul ciclocomputer",sort:1},{id:2,name:"Semestrale",price_cents:21000,note:"35 € al mese",features:"Piano personalizzato\nAllenamenti sul ciclocomputer",sort:2},{id:3,name:"Annuale",price_cents:39000,note:"32,50 € al mese",features:"Piano personalizzato\nAllenamenti sul ciclocomputer",sort:3}],
+  orders:[{id:1,email:"m.rossi@email.it",items:[{name:"Build 12 2.0: preparazione invernale",q:1}],total_cents:2990,created_at:d(5)},{id:2,email:"luca.b@email.it",items:[{name:"Libreria allenamenti, accesso 12 mesi",q:1},{name:"Build 12 2.0: preparazione invernale",q:1}],total_cents:6980,created_at:d(30)}]};
+ let nid=100,ses=null;
+ const q=t=>{let op="select",pay=null;const o={select(){op="select";return o},order(){return o},
+  insert(p){db[t].unshift({id:nid++,created_at:new Date().toISOString(),...p});return Promise.resolve({error:null})},
+  update(p){op="update";pay=p;return o},delete(){op="delete";return o},
+  eq(k,v){if(op=="delete")db[t]=db[t].filter(r=>r[k]!=v);else db[t].forEach(r=>{if(r[k]==v)Object.assign(r,pay)});return Promise.resolve({error:null})},
+  then(res){res({data:db[t]})}};return o};
+ return {from:q,auth:{getSession:async()=>({data:{session:ses}}),signInWithPassword:async()=>{ses=1;return {error:null}},signOut:async()=>{ses=null}},
+  storage:{from:()=>({upload:async()=>({error:null}),getPublicUrl:()=>({data:{publicUrl:""}})})}};
+}
+const DEMO=!CFG.url,sb=DEMO?demoClient():supabase.createClient(CFG.url,CFG.key),$=s=>document.querySelector(s);
+const eur=c=>(c/100).toFixed(2).replace(".",",")+" €";
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const T={
+ articles:{label:"Articoli",f:[["title","Titolo","text"],["category","Categoria","text"],["excerpt","Anteprima (due righe)","area"],["body","Testo dell’articolo (una riga vuota tra i paragrafi)","area",10],["image_url","Immagine","image"],["published","Pubblicato","check"]],show:r=>r.title},
+ products:{label:"Shop",f:[["name","Nome del prodotto","text"],["description","Descrizione","area"],["price_cents","Prezzo in € (0 = gratis)","price"],["image_url","Immagine","image"],["file_path","File che il cliente scarica dopo l’acquisto (PDF, ZIP…)","file"],["active","In vendita","check"]],show:r=>r.name+" · "+(r.price_cents?eur(r.price_cents):"gratis")},
+ packages:{label:"Pacchetti",f:[["name","Nome","text"],["price_cents","Prezzo in €","price"],["note","Nota (es. 40 € al mese)","text"],["features","Cosa include (una voce per riga)","area",5],["sort","Posizione (1, 2, 3…)","number"]],show:r=>r.name+" · "+eur(r.price_cents)}
+};
+let tab="articles",rec=null;
+(async()=>{const {data}=await sb.auth.getSession();data.session?panel():login()})();
+function login(){$("#app").innerHTML=`<form class="box" id="lf"><h2>Area riservata</h2>${DEMO?'<p><small>Modalità demo: config.js non è ancora compilato. Accedi con qualsiasi dato; le modifiche non vengono salvate.</small></p>':''}<label>Email<input id="em" type="email" required></label><label>Password<input id="pw" type="password" required></label><button>Accedi</button><p id="err"></p></form>`;
+ $("#lf").onsubmit=async e=>{e.preventDefault();const {error}=await sb.auth.signInWithPassword({email:$("#em").value,password:$("#pw").value});error?$("#err").textContent="Email o password errate":panel()}}
+function panel(){
+ $("#app").innerHTML=`<div class="bar"><b>Admin</b>${[...Object.keys(T),"orders"].map(t=>`<button data-t="${t}" class="${t==tab?"on":""}">${t=="orders"?"Acquisti":T[t].label}</button>`).join("")}<button id="out">Esci</button></div><main id="m"></main>`;
+ document.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{tab=b.dataset.t;rec=null;panel()});
+ $("#out").onclick=async()=>{await sb.auth.signOut();login()};
+ tab=="orders"?orders():list();
+}
+async function list(){
+ const {data}=await sb.from(tab).select("*").order("id",{ascending:false});
+ $("#m").innerHTML=(rec?form():"")+`<h2>${T[tab].label}</h2><button id="new">+ Aggiungi</button><ul>${(data||[]).map(r=>`<li>${esc(T[tab].show(r))}<span><button data-e="${r.id}">Modifica</button> <button data-d="${r.id}">Elimina</button></span></li>`).join("")}</ul>`;
+ $("#new").onclick=()=>{rec={};list()};
+ document.querySelectorAll("[data-e]").forEach(b=>b.onclick=()=>{rec=data.find(r=>r.id==b.dataset.e);list();scrollTo(0,0)});
+ document.querySelectorAll("[data-d]").forEach(b=>b.onclick=async()=>{if(confirm("Eliminare definitivamente?")){await sb.from(tab).delete().eq("id",b.dataset.d);list()}});
+ if(rec)bind();
+}
+function form(){return `<form id="ef" class="box"><h3>${rec.id?"Modifica":"Nuovo"}</h3>${T[tab].f.map(([k,l,t,n])=>{const v=rec[k];return `<label>${l}`+(t=="area"?`<textarea name="${k}" rows="${n||3}">${esc(v)}</textarea>`:t=="check"?` <input type="checkbox" name="${k}" ${(v??true)?"checked":""}>`:t=="price"?`<input name="${k}" type="number" step="0.01" min="0" value="${v!=null?v/100:""}">`:(t=="image"||t=="file")?`<input type="file" name="${k}" ${t=="image"?'accept="image/*"':""}>${v?`<small>Attuale: ${esc(String(v).split("/").pop())}</small>`:""}`:`<input name="${k}" type="${t}" value="${esc(v)}">`)+`</label>`}).join("")}<button>Salva</button> <button type="button" id="cx">Annulla</button><p id="msg"></p></form>`}
+function bind(){
+ $("#cx").onclick=()=>{rec=null;list()};
+ $("#ef").onsubmit=async e=>{e.preventDefault();$("#msg").textContent="Salvataggio…";
+  try{const o={};
+   for(const [k,l,t] of T[tab].f){const el=e.target.elements[k];
+    if(t=="check")o[k]=el.checked;
+    else if(t=="price")o[k]=Math.round(parseFloat(el.value||0)*100);
+    else if(t=="number")o[k]=+el.value||0;
+    else if(t=="image"||t=="file"){if(el.files[0]){const f=el.files[0],bk=t=="image"?"images":"downloads",p=Date.now()+"-"+f.name.replace(/[^\w.-]/g,"_");
+      const {error}=await sb.storage.from(bk).upload(p,f);if(error)throw error;
+      o[k]=t=="image"?sb.storage.from("images").getPublicUrl(p).data.publicUrl:p}}
+    else o[k]=el.value}
+   const {error}=await(rec.id?sb.from(tab).update(o).eq("id",rec.id):sb.from(tab).insert(o));
+   if(error)throw error;rec=null;list();
+  }catch(err){$("#msg").textContent="Errore: "+err.message}}}
+async function orders(){const {data}=await sb.from("orders").select("*").order("created_at",{ascending:false});
+ $("#m").innerHTML=`<h2>Acquisti</h2>`+((data||[]).length?`<div style="overflow-x:auto"><table><tr><th>Data</th><th>Email</th><th>Prodotti</th><th>Totale</th></tr>${data.map(o=>`<tr><td>${new Date(o.created_at).toLocaleString("it-IT")}</td><td>${esc(o.email)}</td><td>${(o.items||[]).map(i=>esc(i.name)+" ×"+i.q).join(", ")}</td><td>${eur(o.total_cents)}</td></tr>`).join("")}</table></div>`:`<p>Nessun acquisto ancora.</p>`)}
+</script></body></html>
